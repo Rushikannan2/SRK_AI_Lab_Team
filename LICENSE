@@ -1,0 +1,23 @@
+## License and Third-Party Materials
+
+The original code and documentation developed by SRK AI Lab for this
+repository are released under the MIT License. See the `LICENSE` file for
+details.
+
+The repository may also contain supporting materials associated with the
+StanceEval-2026 shared task, including prompts, model outputs, screenshots,
+and other evidence collected during the prediction process. Such materials
+are provided for research documentation and reproducibility and may be
+subject to the terms and conditions of their respective platforms,
+providers, or original authors.
+
+The Mawqif-v2 dataset is not redistributed with this repository. Users
+should obtain the dataset through its official distribution channel and
+comply with the dataset's applicable terms of use.
+
+GPT, Gemini, and Qwen are third-party models/services. Their names,
+interfaces, outputs, and related materials are not claimed as property of
+SRK AI Lab, and their respective terms and policies remain applicable.
+
+The MIT License applies only to the original material in this repository
+that is owned and licensed by SRK AI Lab.
