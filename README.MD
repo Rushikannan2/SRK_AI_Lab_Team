@@ -537,26 +537,18 @@ third-party model or service.
 
 ## License
 
-This repository includes a root-level `LICENSE` file containing the **MIT**
-**License**.
+This repository includes a root-level `LICENSE` file containing the **MIT License**.
 
-The MIT License applies to original SRK AI Lab materials in this repository
-for which the team holds the relevant rights.
+The MIT License applies to original SRK AI Lab materials in this repository for which the team holds the relevant rights.
 
-The MIT License does not override or replace the terms applicable to
-third-party materials.
-
-In particular, the MIT License does not grant additional rights to:
+The MIT License does not override or replace the terms applicable to third-party materials, including:
 
 - the Mawqif-v2 dataset;
-- third-party LLMs;
-- third-party LLM services;
-- third-party content;
-- or materials whose rights belong to their respective owners.
+- third-party LLMs and services;
+- third-party content; and
+- other materials whose rights belong to their respective owners.
 
-Users are responsible for complying with the applicable terms and conditions
-when using third-party materials.
-
+Users are responsible for complying with the applicable terms and conditions when using third-party materials.
 
 ## Acknowledgment
 
