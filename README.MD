@@ -76,35 +76,41 @@ SRK_AI_Lab_Track_2/
 The prediction workflow consists of several stages.
 
 ```text
-Target + Arabic Tweet
-        |
-        +-------------------+-------------------+
-        |                   |                   |
-        v                   v                   v
-   GPT Few-Shot       Gemini Few-Shot      Qwen Few-Shot
-        |                   |                   |
-        +-------------------+-------------------+
-                            |
-                            v
-                  Cross-Model Comparison
-                            |
-                 +----------+----------+
-                 |                     |
-                 v                     v
-             Agreement          Disagreement /
-                                Difficult Cases
-                                      |
-                                      v
-                                  GPT Audit
-                                      |
-                                      v
-                          Target–Tweet Examination
-                                      |
-                                      v
-                         Evidence-Guided Adjudication
-                                      |
-                                      v
-                              Final Prediction
+                         Target + Arabic Post
+                                  |
+                 +----------------+----------------+
+                 |                |                |
+                 v                v                v
+          GPT-5.5 Instant   Gemini 3.6 Flash   Qwen 3.7 Plus
+             Few-Shot       Extended Thinking      Few-Shot
+                 |                |                |
+                 +----------------+----------------+
+                                  |
+                                  v
+                         Model Predictions
+                                  |
+                                  v
+                       Cross-Model Comparison
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                 Agreement              Disagreement /
+                    |                    Difficult Case
+                    |                           |
+                    +-------------+-------------+
+                                  |
+                                  v
+                           GPT-5.5 Audit
+                                  |
+                                  v
+                       Target–Post Examination
+                                  |
+                                  v
+                    Evidence-Based Adjudication
+                                  |
+                                  v
+                         Final Stance Label
+                         Favor / Against / None
 ```
 
 The system begins by providing each LLM with a few-shot prompt containing representative examples and the task instructions.
