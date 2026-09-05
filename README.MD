@@ -274,9 +274,6 @@ SRK_AI_Lab_Team/
 │   ├── README.md
 │   │
 │   ├── Final_Submission/
-│   │   ├── 880809_prediction.txt
-│   │   ├── Final_Gemini_Few_Shot_09_Final.txt
-│   │   └── Final_Gemini_Few_Shot_09_final.zip
 │   │
 │   ├── GPT_Audit/
 │   │   ├── GPT_Audit_Track-1_Prompt.txt
@@ -306,9 +303,6 @@ SRK_AI_Lab_Team/
     ├── README.md
     │
     ├── Final_Submission/
-    │   ├── 880023_prediction.txt
-    │   ├── Gemini_Few_Shot_17_labels_only.txt
-    │   └── Gemini_Few_Shot_17_labels_only.zip
     │
     ├── GPT_Audit/
     │   ├── GPT_Audit_Track-2_Prompt.txt
@@ -339,17 +333,6 @@ SRK_AI_Lab_Team/
 The Track 1 directory contains all materials specific to the seen-target
 submission.
 
-### Final Submission
-
-```text
-SRK_AI_Lab_Track_1/Final_Submission/
-├── 880809_prediction.txt
-├── Final_Gemini_Few_Shot_09_Final.txt
-└── Final_Gemini_Few_Shot_09_final.zip
-```
-
-These files contain the final Track 1 prediction and associated submission
-materials.
 
 ### GPT Audit
 
@@ -412,18 +395,6 @@ These directories contain the Track 1 few-shot prompt materials.
 
 The Track 2 directory contains all materials specific to the unseen-target
 submission.
-
-### Final Submission
-
-```text
-SRK_AI_Lab_Track_2/Final_Submission/
-├── 880023_prediction.txt
-├── Gemini_Few_Shot_17_labels_only.txt
-└── Gemini_Few_Shot_17_labels_only.zip
-```
-
-These files contain the final Track 2 prediction and associated submission
-materials.
 
 ### GPT Audit
 
@@ -529,7 +500,7 @@ Users who wish to reproduce the work should obtain the dataset through its
 official distribution channel and comply with the applicable dataset terms
 and conditions.
 
-The repository does not claim ownership of the Mawqif-v2 dataset.
+The repository does not claim ownership of the Mawqif-XT dataset.
 
 ## Third-Party Models and Services
 
