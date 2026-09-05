@@ -232,7 +232,7 @@ ________________________________________________________________________________
 
 Now classify the following unseen examples.
 
-Use the updated demonstrations together with the same stance definitions and decision rules used throughout this conversation.
+Use together with the same stance definitions and decision rules used throughout this conversation.
 
 Important:
 - Predict the stance toward the given target only.
@@ -244,7 +244,7 @@ Important:
 Output format:
 
 ID,Label
-Discard the previous demonstration examples and use ONLY the following updated demonstrations as your in-context reference for the remainder of this conversation.
+Use ONLY the following updated demonstrations as your in-context reference for the remainder of this conversation.
 
 Keep the same task instructions and label definitions.
 

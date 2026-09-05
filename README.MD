@@ -8,22 +8,26 @@
 
 This repository contains the prediction systems, prompts, raw LLM outputs, screenshots, GPT-based audit materials, post-processing notebooks, and final submission files developed by **SRK AI Lab** for the StanceEval-2026 shared task.
 
-The submitted systems use a few-shot multi-LLM framework for Arabic stance detection. Three independent large language models — **GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus** — were used to classify Target–Tweet pairs into the three task labels: `Favor`, `Against`, and `None`.
+## System Overview
 
-The prediction workflow combines independent LLM predictions with cross-model comparison, GPT-based auditing for difficult or disagreement cases, and evidence-guided adjudication based on the Target–Tweet relationship.
+The submitted systems use a few-shot multi-LLM framework for Arabic target-specific stance detection. Three independent large language models — **GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus** — are used to classify Target–Post pairs into the three task labels: `Favor`, `Against`, and `None`.
 
-The system achieved the following official results:
+The prediction workflow consists of three independent LLM predictions, followed by **GPT-5.5 auditing** and **cross-model comparison**. GPT-5.5 examines the three predictions against the original Target–Post pair and relevant linguistic and stance evidence. The audit is applied to both agreement and disagreement cases. The final decision considers the three model predictions, GPT-5.5 audit observations, and the Target–Post evidence to select the most supported stance label. :contentReference[oaicite:2]{index=2} :contentReference[oaicite:3]{index=3}
+
+The few-shot demonstrations were drawn from the training data, fixed before evaluation, and kept unchanged during inference. No development or evaluation instances were used as demonstrations. :contentReference[oaicite:4]{index=4}
+
+## Official Results
 
 | Track | Setting | Favg2 | Rank |
 |---|---|---:|---:|
-| Track 1 | Seen Targets | **0.8863** | **4th** |
-| Track 2 | Unseen Targets | **0.9518** | **3rd** |
+| Track 1 | Seen Targets | **0.8420** | **8th** |
+| Track 2 | Unseen Targets | **0.9192** | **3rd** |
+
+These are the official StanceEval-2026 results of the final multi-LLM system. :contentReference[oaicite:5]{index=5}
 
 ## Task
 
-StanceEval-2026 is an Arabic stance detection shared task based on the Mawqif-v2 benchmark.
-
-For each instance, the system receives a target and an Arabic tweet/post and must determine the stance expressed toward that specific target.
+StanceEval-2026 is an Arabic stance detection shared task based on the **Mawqif-XT** benchmark. For each instance, the system receives a target and an Arabic social-media post and must determine the stance expressed toward that specific target.
 
 The required labels are:
 
@@ -31,45 +35,42 @@ The required labels are:
 - `Against`
 - `None`
 
-The task is target-aware: a text should not be classified simply according to its general sentiment. The prediction must reflect whether the text expresses support, opposition, or no clear stance toward the specified target.
+The task is target-aware: the prediction should reflect the relationship between the post and the specified target rather than general sentiment. :contentReference[oaicite:6]{index=6}
 
 ## Track 1 — Seen Targets
 
-Track 1 evaluates stance detection for seen targets.
+Track 1 evaluates stance detection for targets seen during training. It covers three targets:
 
-The SRK AI Lab Track 1 system uses few-shot examples together with the target and Arabic tweet to guide the three LLMs in making independent stance predictions.
+- COVID-19 Vaccine
+- Digital Transformation
+- Women Empowerment
 
-The final Track 1 system combines the three model predictions with additional GPT-based auditing and evidence-guided adjudication.
+The Track 1 system uses fixed few-shot demonstrations from the training data. GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus independently generate stance predictions. These predictions are then examined by GPT-5.5 and incorporated into cross-model comparison for the final decision. :contentReference[oaicite:7]{index=7} :contentReference[oaicite:8]{index=8}
 
 **Official Track 1 result:**
 
-- **Favg2:** 0.8863
-- **Rank:** 4th
+- **Favg2:** 0.8420
+- **Rank:** 8th
 
 The complete Track 1 materials are available in:
 
 ```text
 SRK_AI_Lab_Track_1/
-````
 
-## Track 2 — Unseen Targets
+Track 2 — Unseen Targets
 
-Track 2 evaluates stance detection for unseen targets.
+Track 2 evaluates cross-target generalization, where the evaluation targets are unseen during training. The system therefore relies on the semantic relationship between the target and the Arabic post rather than target-specific memorization.
 
-The same general multi-LLM framework is used, but the prediction requires greater reliance on the semantic relationship between the target and tweet because the target is unseen relative to the relevant training setting.
+The same three-model few-shot workflow is used for Track 2, followed by GPT-5.5 auditing and cross-model comparison.
 
-The system therefore focuses on interpreting the Target–Tweet relationship rather than relying on target-specific memorization.
+Official Track 2 result:
 
-**Official Track 2 result:**
-
-- **Favg2:** 0.9518
-- **Rank:** 3rd
+Favg2: 0.9192
+Rank: 3rd
 
 The complete Track 2 materials are available in:
 
-```text
 SRK_AI_Lab_Track_2/
-```
 
 ## System
 
@@ -82,71 +83,76 @@ The prediction workflow consists of several stages.
                  |                |                |
                  v                v                v
           GPT-5.5 Instant   Gemini 3.6 Flash   Qwen 3.7 Plus
-             Few-Shot       Extended Thinking      Few-Shot
+             (Few-shot)     with Extended       (Few-shot)
+                              Thinking
+                 |                |                |
+                 v                v                v
+            Prediction 1     Prediction 2     Prediction 3
+          (Favor / Against / None)
                  |                |                |
                  +----------------+----------------+
                                   |
                                   v
-                         Model Predictions
+                       GPT-5.5 Audit Analysis
+                     (All Three Predictions)
+                                  |
+                                  v
+                     Target–Post Examination
+                  + Linguistic/Stance Evidence
                                   |
                                   v
                        Cross-Model Comparison
-                                  |
-                    +-------------+-------------+
-                    |                           |
-                 Agreement              Disagreement /
-                    |                    Difficult Case
-                    |                           |
-                    +-------------+-------------+
+                  + Audit Observations
+                  + Agreement/Disagreement
                                   |
                                   v
-                           GPT-5.5 Audit
-                                  |
-                                  v
-                       Target–Post Examination
-                                  |
-                                  v
-                    Evidence-Based Adjudication
+                          Final Decision
+              Most-Supported Stance Label Selected
+               (Gemini > GPT-5.5 > Qwen for
+                unresolved ambiguity only)
                                   |
                                   v
                          Final Stance Label
                          Favor / Against / None
 ```
 
-The system begins by providing each LLM with a few-shot prompt containing representative examples and the task instructions.
+The system begins by providing each LLM with a few-shot prompt containing representative examples and task instructions.
 
-GPT, Gemini, and Qwen independently interpret each Target–Tweet pair and produce a stance prediction.
+GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus independently interpret each Target–Post pair and produce a stance prediction.
 
-The resulting predictions are then compared. Agreement between models provides supporting evidence, while disagreement or difficult cases receive additional review.
+The three predictions are then compared using their agreement and disagreement patterns.
 
-A GPT-based audit is used to examine difficult cases and provide additional reasoning about the Target–Tweet relationship.
+GPT-5.5 performs an audit of all three model predictions by examining the original Target–Post pair and relevant linguistic and stance evidence.
 
-The audit is used as a quality-control and adjudication aid rather than as an unconditional source of ground truth.
+The audit provides an additional model-based assessment of the predictions, considering factors such as target–post relation, negation, sarcasm, irony, rhetorical questions, and implicit meaning.
 
-The final decision considers the available model predictions, GPT audit analysis, and the linguistic and contextual evidence in the Target–Tweet pair.
+The final decision considers the three model predictions, GPT-5.5 audit observations, and the linguistic and contextual evidence in the Target–Post pair to select the most supported stance label.
+
+
 
 ## Target-Aware Interpretation
 
 The system treats stance detection as a target-specific classification problem rather than ordinary sentiment classification.
 
-During prediction and review, attention is given to factors such as explicit and implicit stance, negation, sarcasm, irony, contextual meaning, pragmatic interpretation, hashtags, wording, and cases where a tweet discusses a topic without actually expressing Favor or Against toward the specified target.
+During prediction and GPT-5.5 auditing, attention is given to factors such as explicit and implicit stance, negation, sarcasm, irony, contextual meaning, pragmatic interpretation, hashtags, wording, and cases where a post discusses a topic without expressing Favor or Against toward the specified target.
 
-This target-aware interpretation is especially important for difficult examples and for Track 2 unseen-target generalization.
+This target-aware interpretation is important for both seen-target classification in Track 1 and unseen-target generalization in Track 2.
+
 
 ## Few-Shot Prompting
 
-Few-shot prompting is used to communicate the task format, stance labels, and representative examples to each LLM.
+Few-shot prompting is used to communicate the task definition, stance labels, decision guidelines, and representative examples to each prediction model.
 
-The prediction models receive the relevant Target–Tweet input together with the few-shot task context.
+The prediction models receive the relevant Target–Post input together with the corresponding few-shot task context. The few-shot demonstrations are drawn from the training data, fixed before evaluation, and kept unchanged during inference. No development or evaluation instances are used as demonstrations.
 
-The prompts used for the three models are preserved separately:
+The prompt materials are preserved separately:
 
 ```text
 Prompts/
 ├── Gemini/
 ├── GPT/
 └── Qwen/
-```
+
 
 The corresponding prompt materials are available separately inside each track directory.
 
@@ -154,95 +160,105 @@ The corresponding prompt materials are available separately inside each track di
 
 The three independent prediction sources are:
 
-- **GPT-5.5 Instant**
-- **Gemini 3.6 Flash with Extended Thinking**
-- **Qwen 3.7 Plus**
+GPT-5.5 Instant
+Gemini 3.6 Flash with Extended Thinking
+Qwen 3.7 Plus
 
 The models were accessed through their respective interactive chat interfaces.
 
-The LLM prediction stage was not implemented as a unified API-based automated inference pipeline.
+The LLM prediction stage was not implemented as a unified API- or SDK-based automated inference pipeline.
 
-The repository therefore preserves the actual evidence available from the interactive prediction process, including prompts, raw outputs, screenshots, audit records, and post-processing resources.
+The repository therefore preserves the available records of the interactive prediction process, including prompts, raw outputs, screenshots, audit materials, and post-processing resources.
 
 ## Cross-Model Comparison
 
-After the three models produce their predictions, the outputs are compared.
+After the three models independently produce their stance predictions, the predictions are examined together with the GPT-5.5 audit observations.
 
-When all or multiple models agree, their agreement provides supporting evidence for the prediction.
+The comparison considers model agreement and disagreement patterns across the three predictions.
 
-Agreement is not treated as an automatic guarantee of correctness.
+Agreement between models provides supporting evidence, but agreement is not treated as an automatic guarantee of correctness.
 
-When predictions disagree, or when an example appears linguistically or contextually difficult, the case receives additional review.
+When predictions differ, the disagreement is examined using the GPT-5.5 audit observations and the original Target–Post evidence.
 
-The comparison process helps identify cases where different models interpret the Target–Tweet relationship differently.
+When all three models agree, the agreement is also checked against the original Target–Post evidence rather than being accepted automatically.
+
+The cross-model comparison therefore considers both agreement and disagreement when determining the most supported stance label.
 
 ## GPT Audit
 
-A dedicated GPT-based audit workflow is included for difficult and disagreement cases.
+A dedicated GPT-5.5 audit workflow is used to examine the predictions generated by GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus.
 
-The audit considers the relevant target, tweet, model predictions, and available evidence and provides an additional analysis of the stance relationship.
+The audit is applied to all prediction cases, including both agreement and disagreement cases.
 
-The audit is intended to support quality control and evidence-based decision making.
+For each case, GPT-5.5 examines the original target and Arabic post together with the three model predictions and evaluates the target–post relationship and relevant linguistic or contextual evidence.
 
-It is not treated as infallible and is not used through a rule such as:
+The audit pays particular attention to phenomena such as:
 
-```text
-Always follow the GPT Audit.
-```
+negation;
+sarcasm;
+irony;
+rhetorical questions;
+mockery;
+implicit stance;
+target/opponent relationships; and
+cases where sentiment and stance may differ.
 
-Instead, the audit can support a prediction, identify a potentially problematic prediction, or provide additional context for the final decision.
+The GPT-5.5 audit is not treated as a fourth independent prediction. Its observations provide additional model-based evidence for the cross-model comparison and final decision.
+
+The audit does not automatically override the other model predictions. The original Target–Post pair remains the primary evidence, while the model predictions and GPT-5.5 audit observations are considered together.
 
 The audit materials are preserved in:
 
-```text
 GPT_Audit/
-```
 
 for each track.
 
-## Evidence-Guided Adjudication
 
-The final prediction is determined after considering the available evidence from:
+Final Decision
 
-- GPT;
-- Gemini;
-- Qwen;
-- cross-model comparison;
-- GPT-based auditing; and
-- direct examination of the Target–Tweet relationship.
+The final stance label is selected after considering:
 
-The final label is therefore not claimed to be the unmodified output of any single LLM.
+GPT-5.5 prediction;
+Gemini 3.6 Flash prediction;
+Qwen 3.7 Plus prediction;
+GPT-5.5 audit observations;
+cross-model agreement/disagreement patterns; and
+the linguistic and contextual evidence in the original Target–Post pair.
 
-The purpose of the adjudication stage is to select the strongest Target–Tweet-supported interpretation using the available model and audit evidence.
+The final decision selects the most supported label among Favor, Against, and None.
 
-## LLM Access and Reproducibility
+For unresolved ambiguity, the fixed secondary priority is Gemini 3.6 Flash with Extended Thinking, followed by GPT-5.5 Instant and Qwen 3.7 Plus. This priority is used only as a secondary criterion and does not automatically override the available evidence.
+
+
+
+LLM Access and Reproducibility
 
 The GPT, Gemini, and Qwen predictions were generated through direct interaction with their respective chat interfaces.
 
-No API-based automated querying pipeline was used for the interactive LLM prediction stage.
+No API- or SDK-based automated inference pipeline was used for the interactive LLM prediction stage.
 
 Accordingly, the repository does not claim an API implementation that was not actually used.
 
 Because interactive LLM responses may not be deterministically reproducible through the same interface at a later time, exact programmatic reproduction of every individual interactive response cannot be guaranteed.
 
-The repository instead provides the available evidence and records of the original workflow, including the prompts, raw outputs, screenshots, audit materials, post-processing notebooks, and final prediction files.
+The repository instead provides the available records of the original workflow, including prompts, raw outputs, screenshots, GPT-5.5 audit materials, post-processing notebooks, and final prediction files.
 
-Where local notebooks or scripts were used for parsing, comparison, organization, post-processing, or preparing final prediction files, those materials are included in the corresponding track directories.
+Where local notebooks or scripts were used for parsing, comparison, organization, post-processing, or preparation of final prediction files, those materials are included in the corresponding track directories.
 
-## Evidence Included
+Evidence Included
 
 The repository preserves the available evidence for both tracks, including:
 
-- few-shot prompts;
-- raw GPT outputs;
-- raw Gemini outputs;
-- raw Qwen outputs;
-- screenshots of interactive LLM sessions;
-- GPT audit prompts;
-- GPT audit outputs;
-- post-processing notebooks;
-- final prediction files; and
-- submission archives.
+few-shot prompts;
+raw GPT outputs;
+raw Gemini outputs;
+raw Qwen outputs;
+screenshots of interactive LLM sessions;
+GPT-5.5 audit prompts;
+GPT-5.5 audit outputs;
+post-processing notebooks;
+final prediction files; and
+submission archives.
 
 The materials are organized independently for Track 1 and Track 2.
 
@@ -504,7 +520,7 @@ after the interactive LLM prediction stage.
 
 ## Dataset
 
-The Mawqif-v2 dataset is not redistributed in this repository.
+The Mawqif-XT dataset is not redistributed in this repository.
 
 This repository contains the system documentation and prediction-related
 materials associated with the StanceEval-2026 task, but does not provide a
@@ -549,7 +565,7 @@ The MIT License applies to original SRK AI Lab materials in this repository for 
 
 The MIT License does not override or replace the terms applicable to third-party materials, including:
 
-- the Mawqif-v2 dataset;
+- the Mawqif-XT dataset;
 - third-party LLMs and services;
 - third-party content; and
 - other materials whose rights belong to their respective owners.
@@ -558,7 +574,7 @@ Users are responsible for complying with the applicable terms and conditions whe
 
 ## Acknowledgment
 
-We thank the **StanceEval-2026 organizers** and **Mawqif-v2 contributors**
+We thank the **StanceEval-2026 organizers** and **Mawqif-XT contributors**
 for providing the shared-task framework, dataset, and evaluation resources.
 
 

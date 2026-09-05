@@ -11,7 +11,7 @@ for StanceEval-2026 Track 1 and Track 2.
 Your job is to audit every prediction against the ORIGINAL Target and Arabic Tweet and determine the most correct final label.
 
 IMPORTANT MODEL PRIOR:
-From my previous manual evaluation, Gemini has generally been the most accurate of the three models. Therefore, give Gemini a SLIGHTLY HIGHER PRIOR when models disagree.
+From my previous further evaluation, Gemini has generally been the most accurate of the three models. Therefore, give Gemini a SLIGHTLY HIGHER PRIOR when models disagree.
 
 However:
 - Gemini is NOT automatically correct.
@@ -184,7 +184,7 @@ Use one of:
 - CHANGE TO FAVOR
 - CHANGE TO AGAINST
 - CHANGE TO NONE
-- MANUAL REVIEW
+- further REVIEW
 
 The Reason must explain the decision in 1–3 concise sentences.
 
@@ -284,7 +284,7 @@ Summarize:
 4. Whether Gemini's apparent advantage is supported by these examples.
 5. Where GPT is stronger.
 6. Where Qwen is stronger.
-7. Which examples should receive MANUAL REVIEW.
+7. Which examples should receive further REVIEW.
 8. Whether the final audited labels appear reliable enough for submission.
 
 IMPORTANT:
