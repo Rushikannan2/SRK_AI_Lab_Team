@@ -12,9 +12,9 @@ This repository contains the prediction systems, prompts, raw LLM outputs, scree
 
 The submitted systems use a few-shot multi-LLM framework for Arabic target-specific stance detection. Three independent large language models — **GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus** — are used to classify Target–Post pairs into the three task labels: `Favor`, `Against`, and `None`.
 
-The prediction workflow consists of three independent LLM predictions, followed by **GPT-5.5 auditing** and **cross-model comparison**. GPT-5.5 examines the three predictions against the original Target–Post pair and relevant linguistic and stance evidence. The audit is applied to both agreement and disagreement cases. The final decision considers the three model predictions, GPT-5.5 audit observations, and the Target–Post evidence to select the most supported stance label. :contentReference[oaicite:2]{index=2} :contentReference[oaicite:3]{index=3}
+The prediction workflow consists of three independent LLM predictions, followed by **GPT-5.5 auditing** and **cross-model comparison**. GPT-5.5 examines the three predictions against the original Target–Post pair and relevant linguistic and stance evidence. The audit is applied to both agreement and disagreement cases. The final decision considers the three model predictions, GPT-5.5 audit observations, and the Target–Post evidence to select the most supported stance label. 
 
-The few-shot demonstrations were drawn from the training data, fixed before evaluation, and kept unchanged during inference. No development or evaluation instances were used as demonstrations. :contentReference[oaicite:4]{index=4}
+The few-shot demonstrations were drawn from the training data, fixed before evaluation, and kept unchanged during inference. No development or evaluation instances were used as demonstrations. 
 
 ## Official Results
 
@@ -23,7 +23,7 @@ The few-shot demonstrations were drawn from the training data, fixed before eval
 | Track 1 | Seen Targets | **0.8420** | **8th** |
 | Track 2 | Unseen Targets | **0.9192** | **3rd** |
 
-These are the official StanceEval-2026 results of the final multi-LLM system. :contentReference[oaicite:5]{index=5}
+These are the official StanceEval-2026 results of the final multi-LLM system. 
 
 ## Task
 
@@ -35,7 +35,7 @@ The required labels are:
 - `Against`
 - `None`
 
-The task is target-aware: the prediction should reflect the relationship between the post and the specified target rather than general sentiment. :contentReference[oaicite:6]{index=6}
+The task is target-aware: the prediction should reflect the relationship between the post and the specified target rather than general sentiment. 
 
 ## Track 1 — Seen Targets
 
@@ -45,8 +45,7 @@ Track 1 evaluates stance detection for targets seen during training. It covers t
 - Digital Transformation
 - Women Empowerment
 
-The Track 1 system uses fixed few-shot demonstrations from the training data. GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus independently generate stance predictions. These predictions are then examined by GPT-5.5 and incorporated into cross-model comparison for the final decision. :contentReference[oaicite:7]{index=7} :contentReference[oaicite:8]{index=8}
-
+The Track 1 system uses fixed few-shot demonstrations from the training data. GPT-5.5 Instant, Gemini 3.6 Flash with Extended Thinking, and Qwen 3.7 Plus independently generate stance predictions. These predictions are then examined by GPT-5.5 and incorporated into cross-model comparison for the final decision.
 **Official Track 1 result:**
 
 - **Favg2:** 0.8420
